@@ -3,6 +3,7 @@ package static
 import (
 	"embed"
 	"github.com/gin-gonic/gin"
+	"github.com/nick-leslie/scorekeeper/internal/helper"
 	"strings"
 )
 
@@ -18,20 +19,7 @@ func SetupStaticEmbed(router *gin.Engine, fileSystem *embed.FS, path string, bas
 				println(readFileErr.Error())
 				continue
 			}
-			router.GET(urlPath+name, func(context *gin.Context) {
-				data := readFile
-				parts := strings.Split(name, ".")
-				ext := parts[len(parts)-1]
-				switch ext {
-				case "html":
-					context.Header("Content-Type", "text/html")
-				case "css":
-					context.Header("Content-Type", "text/css")
-				case "js":
-					context.Header("Content-Type", "application/javascript")
-				}
-				context.Data(200, name, data)
-			})
+			router.GET(urlPath+name, HandleFuncStatic(readFile, name))
 		} else {
 			SetupStaticEmbed(router, fileSystem, path+"/"+name, basePath)
 		}
@@ -40,4 +28,12 @@ func SetupStaticEmbed(router *gin.Engine, fileSystem *embed.FS, path string, bas
 		println(direrr.Error())
 		return
 	}
+}
+
+func HandleFuncStatic(data []byte, name string) gin.HandlerFunc {
+	fn := func(context *gin.Context) {
+		helper.SetHeaders(context, name)
+		context.Data(200, name, data)
+	}
+	return fn
 }
