@@ -9,8 +9,6 @@ import (
 
 var buildDir = "frontend/build"
 
-//go:generate npm i
-//go:generate npm run build
 //go:embed all:frontend/build
 var files embed.FS
 
