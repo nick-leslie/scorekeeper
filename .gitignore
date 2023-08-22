@@ -1,3 +1,4 @@
 build
 src/frontend/.svelte-kit
 src/frontend/build
+*.db

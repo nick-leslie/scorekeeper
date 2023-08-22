@@ -2,7 +2,11 @@ module github.com/nick-leslie/scorekeeper
 
 go 1.18
 
-require github.com/gin-gonic/gin v1.9.1
+require (
+	github.com/gin-gonic/gin v1.9.1
+	github.com/google/uuid v1.3.1
+	github.com/mattn/go-sqlite3 v1.14.17
+)
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect

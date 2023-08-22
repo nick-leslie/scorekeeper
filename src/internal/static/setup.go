@@ -20,6 +20,9 @@ func SetupStaticEmbed(router *gin.Engine, fileSystem *embed.FS, path string, bas
 				continue
 			}
 			if name != "index.html" {
+				if strings.Contains(name, ".html") == true {
+					name = strings.ReplaceAll(name, ".html", "")
+				}
 				router.GET(urlPath+name, HandleFuncStatic(readFile, name))
 			} else {
 				router.GET("/", HandleFuncStatic(readFile, name))
