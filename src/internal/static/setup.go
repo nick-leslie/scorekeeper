@@ -19,7 +19,11 @@ func SetupStaticEmbed(router *gin.Engine, fileSystem *embed.FS, path string, bas
 				println(readFileErr.Error())
 				continue
 			}
-			router.GET(urlPath+name, HandleFuncStatic(readFile, name))
+			if name != "index.html" {
+				router.GET(urlPath+name, HandleFuncStatic(readFile, name))
+			} else {
+				router.GET("/", HandleFuncStatic(readFile, name))
+			}
 		} else {
 			SetupStaticEmbed(router, fileSystem, path+"/"+name, basePath)
 		}

@@ -2,8 +2,8 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/nick-leslie/scorekeeper/internal/api"
 	"github.com/nick-leslie/scorekeeper/internal/static"
 )
 
@@ -18,14 +18,9 @@ func main() {
 
 	router := gin.Default()
 	static.SetupStaticEmbed(router, &files, buildDir, buildDir)
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"test": 1,
-		})
-	})
+	api.SetupApi(router)
 	err := router.Run(":3000")
 	if err != nil {
 		return
-	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-	fmt.Println("Hello, world.")
+	} // listen and serve on 0.0.0.0:3000 (for windows "localhost:3000")
 }
